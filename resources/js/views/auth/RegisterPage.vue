@@ -52,11 +52,25 @@
                 <input 
                   type="text" 
                   v-model="registerForm.fullname" 
+                  @input="formatName"
+                  @blur="validateName(registerForm.fullname)"
                   placeholder="Nom complet" 
                   required
-                  class="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-slate-200 bg-white text-slate-700 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition"
+                  :class="[
+                    'w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border bg-white text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 transition',
+                    nameError 
+                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
+                      : 'border-slate-200 focus:border-blue-500 focus:ring-blue-500/20'
+                  ]"
                 >
+                <!-- Message d'erreur -->
+                <p v-if="nameError" class="text-red-500 text-[10px] mt-1 flex items-center gap-1">
+                  <i class="fas fa-exclamation-circle text-[8px]"></i>
+                  {{ nameError }}
+                </p>
               </div>
+  
+
               
               <div class="relative">
                 <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -292,6 +306,7 @@ const authError = ref('');
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 const currentStep = ref(0);
+const nameError = ref(''); // Ajout d'une erreur pour le nom
 
 // Étapes du formulaire
 const steps = [
@@ -313,6 +328,34 @@ const registerForm = ref({
   terms: false
 });
 
+// Fonction de validation du nom (lettres seulement + espaces, tirets, apostrophes)
+const validateName = (name) => {
+  // Regex qui accepte : lettres (accentuées incluses), espaces, tirets, apostrophes
+  const nameRegex = /^[A-Za-zÀ-ÿ\s\-']+$/;
+  
+  if (!name) {
+    nameError.value = '';
+    return true;
+  }
+  
+  if (!nameRegex.test(name)) {
+    nameError.value = 'Le nom ne doit contenir que des lettres, espaces, tirets ou apostrophes';
+    return false;
+  }
+  
+  nameError.value = '';
+  return true;
+};
+
+// Fonction pour formater le nom (supprimer les caractères invalides en temps réel)
+const formatName = (event) => {
+  let value = event.target.value;
+  // Supprime les caractères qui ne sont pas des lettres, espaces, tirets ou apostrophes
+  value = value.replace(/[^A-Za-zÀ-ÿ\s\-']/g, '');
+  registerForm.value.fullname = value;
+  validateName(value);
+};
+
 // Règles de validation du mot de passe
 const passwordRules = computed(() => {
   const password = registerForm.value.password || '';
@@ -329,7 +372,9 @@ const passwordRules = computed(() => {
 const canProceed = computed(() => {
   switch (currentStep.value) {
     case 0:
-      return registerForm.value.fullname && registerForm.value.email;
+      return registerForm.value.fullname && 
+             registerForm.value.email && 
+             validateName(registerForm.value.fullname); // Vérifie que le nom est valide
     case 1:
       return true;
     case 2:
@@ -349,7 +394,8 @@ const isRegisterFormValid = computed(() => {
          registerForm.value.password &&
          registerForm.value.password === registerForm.value.confirmPassword &&
          Object.values(passwordRules.value).every(rule => rule === true) &&
-         registerForm.value.terms;
+         registerForm.value.terms &&
+         validateName(registerForm.value.fullname); // Vérifie que le nom est valide
 });
 
 // Navigation
@@ -368,7 +414,13 @@ const previousStep = () => {
 // Inscription avec connexion automatique - REDIRECTION VERS LA PAGE D'ACCUEIL
 const handleRegister = async () => {
   if (!isRegisterFormValid.value) {
-    authError.value = 'Veuillez accepter les conditions d\'utilisation';
+    if (!validateName(registerForm.value.fullname)) {
+      authError.value = 'Le nom ne doit contenir que des lettres';
+    } else if (!registerForm.value.terms) {
+      authError.value = 'Veuillez accepter les conditions d\'utilisation';
+    } else {
+      authError.value = 'Veuillez remplir tous les champs correctement';
+    }
     return;
   }
 
@@ -425,7 +477,6 @@ const handleRegister = async () => {
     await store.dispatch('login', { user: sessionUser, token });
     
     // ✅ REDIRECTION VERS LA PAGE D'ACCUEIL (HOME)
-    // Au lieu de '/dashboard', on redirige vers '/' (page d'accueil)
     router.push('/');
     
   } catch (error) {

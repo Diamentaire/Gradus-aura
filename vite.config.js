@@ -19,4 +19,5 @@ export default defineConfig({
     optimizeDeps: {
         include: ['vue', 'vue-router', 'vuex', 'axios'],
     },
+    assetsInclude: ['**/*.JPG', '**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.gif', '**/*.svg'],
 });

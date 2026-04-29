@@ -73,7 +73,8 @@
     <!-- CARTES DES FORMATIONS -->
     <section class="py-16">
       <div class="container mx-auto px-5">
-        <div class="grid md:grid-cols-2 gap-12">
+        <!-- Première ligne : FD et FQ -->
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
           <!-- Formation Diplômante FD -->
           <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
             <div class="relative h-64 overflow-hidden">
@@ -90,7 +91,6 @@
               <h2 class="text-2xl font-bold text-gray-800 group-hover:text-primary transition">Formations Diplômantes (FD) à distance</h2>
               <p class="text-gray-500 mt-2">Les formations diplômantes internationales offertes par les universités membres de l'AUF à travers le numérique.</p>
               
-              <!-- Informations de l'image -->
               <div class="mt-4 flex flex-wrap gap-4">
                 <div class="flex items-center gap-2">
                   <i class="fas fa-globe text-primary"></i>
@@ -156,7 +156,6 @@
               <h2 class="text-2xl font-bold text-gray-800 group-hover:text-primary transition">Formations Qualifiantes (FQ) à distance</h2>
               <p class="text-gray-500 mt-2">Les formations qualifiantes internationales offertes par les universités membres de l'AUF à travers le numérique.</p>
               
-              <!-- Informations de l'image -->
               <div class="mt-4 flex flex-wrap gap-4">
                 <div class="flex items-center gap-2">
                   <i class="fas fa-globe text-primary"></i>
@@ -211,31 +210,146 @@
           </div>
         </div>
 
+        <!-- Deuxième ligne : FP et FH côte à côte -->
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Formation Présidentielle FP (Violet - Gauche) -->
+          <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+            <div class="relative h-64 overflow-hidden">
+              <img src="/public/images/IMG_6058.JPG" alt="Formation présidentielle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">👑 Executive</span>
+              </div>
+              <div class="absolute top-4 right-4 bg-white/90 rounded-full p-2">
+                <i class="fas fa-crown text-purple-600 text-xl"></i>
+              </div>
+            </div>
+            <div class="p-8">
+              <h2 class="text-2xl font-bold text-gray-800 group-hover:text-purple-600 transition">Formation Présidentielle (FP) Executive</h2>
+              <p class="text-gray-500 mt-2">Programme d'excellence pour les hauts responsables et cadres dirigeants, dispensé par des experts internationaux.</p>
+              
+              <div class="mt-4 flex flex-wrap gap-4">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-globe text-purple-600"></i>
+                  <span class="text-sm"><strong>5</strong> Pays partenaires</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-chalkboard-user text-purple-600"></i>
+                  <span class="text-sm"><strong>20+</strong> Experts internationaux</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-trophy text-purple-600"></i>
+                  <span class="text-sm"><strong>6</strong> Modules executives</span>
+                </div>
+              </div>
+
+              <div class="mt-4 p-3 bg-purple-50 rounded-lg">
+                <div class="flex items-center gap-2 text-purple-600">
+                  <i class="fas fa-calendar-alt"></i>
+                  <span class="text-sm font-semibold">Session spéciale : Octobre 2026 - Inscriptions prioritaires</span>
+                </div>
+              </div>
+
+              <ul class="mt-5 space-y-3">
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i><span>Leadership stratégique et gouvernance</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i><span>Diplomatie et relations internationales</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i><span>Management de crise et prise de décision</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i><span>Innovation et transformation digitale</span></li>
+              </ul>
+              <div class="mt-6 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-clock text-gray-400"></i>
+                  <span class="text-sm text-gray-500">6 à 9 mois</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-certificate text-purple-600"></i>
+                  <span class="text-sm font-semibold text-purple-600">Certification Executive</span>
+                </div>
+              </div>
+              <div class="mt-4 flex gap-3">
+                <button @click="goToFormationPresidentielle" class="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                  <i class="fas fa-arrow-right"></i> Découvrir
+                </button>
+                <button @click="goToFormationDetail('presidentielle')" class="py-3 px-4 border-2 border-purple-600 text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-all duration-300 flex items-center justify-center gap-2">
+                  <i class="fas fa-info-circle"></i> Détail
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formation Hybride FH (Couleur Premium Ambrée - Droite) -->
+          <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+            <div class="relative h-64 overflow-hidden">
+              <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?w=600&h=400&fit=crop" alt="Formation hybride" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold">🌟 Premium</span>
+              </div>
+              <div class="absolute top-4 right-4 bg-white/90 rounded-full p-2">
+                <i class="fas fa-star text-amber-500 text-xl"></i>
+              </div>
+            </div>
+            <div class="p-8">
+              <h2 class="text-2xl font-bold text-gray-800 group-hover:text-amber-600 transition">Formation Hybride (FH) Premium</h2>
+              <p class="text-gray-500 mt-2">Bénéficiez du meilleur des deux mondes avec nos campus partenaires et notre plateforme e-learning.</p>
+              
+              <div class="mt-4 flex flex-wrap gap-4">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-globe text-amber-600"></i>
+                  <span class="text-sm"><strong>12</strong> Pays</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-building text-amber-600"></i>
+                  <span class="text-sm"><strong>25</strong> Campus partenaires</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-laptop text-amber-600"></i>
+                  <span class="text-sm"><strong>100%</strong> Plateforme digitale</span>
+                </div>
+              </div>
+
+              <div class="mt-4 p-3 bg-amber-50 rounded-lg">
+                <div class="flex items-center gap-2 text-amber-600">
+                  <i class="fas fa-calendar-alt"></i>
+                  <span class="text-sm font-semibold">Rentrée : Septembre 2026 - Inscriptions ouvertes</span>
+                </div>
+              </div>
+
+              <ul class="mt-5 space-y-3">
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-600"></i><span>MBA Executive (Présentiel + Online)</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-600"></i><span>Master en Intelligence Artificielle</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-600"></i><span>Certification en Cybersécurité</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-600"></i><span>Diplôme en Finance Internationale</span></li>
+              </ul>
+              <div class="mt-6 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-clock text-gray-400"></i>
+                  <span class="text-sm text-gray-500">12 à 18 mois</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-certificate text-amber-600"></i>
+                  <span class="text-sm font-semibold text-amber-600">Double Certification</span>
+                </div>
+              </div>
+              <div class="mt-4 flex gap-3">
+                <button @click="goToFormationHybride" class="flex-1 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                  <i class="fas fa-arrow-right"></i> Découvrir
+                </button>
+                <button @click="goToFormationDetail('hybride')" class="py-3 px-4 border-2 border-amber-500 text-amber-600 rounded-xl font-semibold hover:bg-amber-50 transition-all duration-300 flex items-center justify-center gap-2">
+                  <i class="fas fa-info-circle"></i> Détail
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Info catalogue -->
-        <div class="mt-8 text-center">
+        <div class="mt-12 text-center">
           <a href="#" class="inline-flex items-center gap-2 text-primary hover:text-indigo-700 font-semibold transition-colors">
             <i class="fas fa-book-open"></i>
             Accéder au catalogue
             <i class="fas fa-arrow-right text-sm"></i>
           </a>
-        </div>
-
-        <!-- Formation Hybride -->
-        <div class="mt-12 bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-3xl p-10 text-white text-center hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02]">
-          <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-left">
-              <h3 class="text-3xl font-bold">🚀 Formation hybride : présentiel + digital</h3>
-              <p class="text-indigo-100 mt-2">Bénéficiez du meilleur des deux mondes avec nos campus partenaires et notre plateforme e-learning.</p>
-            </div>
-            <div class="flex gap-3">
-              <button @click="goToFormationHybride" class="px-8 py-3 bg-white text-primary rounded-xl font-semibold hover:shadow-lg transition-all transform hover:scale-105 flex items-center gap-2">
-                <i class="fas fa-rocket"></i> Découvrir
-              </button>
-              <button @click="goToFormationDetail('hybride')" class="px-6 py-3 border-2 border-white text-white rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
-                <i class="fas fa-info-circle"></i> Détail
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -347,7 +461,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const confirmationModalOpen = ref(false);
 
-// Liens pour les boutons Découvrir (conservés du code original)
 const goToFormationDiplomante = () => {
   confirmationModalOpen.value = true;
   setTimeout(() => {
@@ -364,15 +477,22 @@ const goToFormationQualifiante = () => {
   }, 1500);
 };
 
+const goToFormationPresidentielle = () => {
+  confirmationModalOpen.value = true;
+  setTimeout(() => {
+    confirmationModalOpen.value = false;
+    router.push('/formation-presidentielle');
+  }, 1500);
+};
+
 const goToFormationHybride = () => {
   confirmationModalOpen.value = true;
   setTimeout(() => {
     confirmationModalOpen.value = false;
-    router.push('/formation-hybride-page');  // Nouveau chemin
+    router.push('/formation-hybride-page');
   }, 1500);
 };
 
-// Liens pour les boutons Détail
 const goToFormationDetail = (type) => {
   confirmationModalOpen.value = true;
   setTimeout(() => {
@@ -381,6 +501,8 @@ const goToFormationDetail = (type) => {
       router.push('/formationdiplomante');
     } else if (type === 'fq') {
       router.push('/formationqualifiante');
+    } else if (type === 'presidentielle') {
+      router.push('/formationpresidentielle');
     } else if (type === 'hybride') {
       router.push('/formationhybride');
     }

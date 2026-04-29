@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import EmptyLayout from '../layouts/EmptyLayout.vue';
+import FormationPresidentiellePage from '../views/Formations/FormationPresidentiellePage.vue';
+import DashboardFormateur from '../views/Dashboard/DashboardFormateur.vue';
+
 
 const routes = [
   // Routes publiques avec DefaultLayout
@@ -61,76 +64,10 @@ const routes = [
       { 
         path: '', 
         name: 'dashboard-formateur', 
-        component: () => import('../views/DashboardFormateur.vue'),
+        component: () => import('../views/Dashboard/DashboardFormateur.vue'),
         meta: { title: 'Dashboard Formateur' }
       },
-      { 
-        path: 'dashboard', 
-        name: 'formateur-dashboard', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Dashboard Formateur' }
-      },
-      { 
-        path: 'cours', 
-        name: 'formateur-cours', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Mes cours' }
-      },
-      { 
-        path: 'etudiants', 
-        name: 'formateur-etudiants', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Mes étudiants' }
-      },
-      { 
-        path: 'examens', 
-        name: 'formateur-examens', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Mes examens' }
-      },
-      { 
-        path: 'quiz', 
-        name: 'formateur-quiz', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Mes quiz' }
-      },
-      { 
-        path: 'diagrammes', 
-        name: 'formateur-diagrammes', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Mes diagrammes' }
-      },
-      { 
-        path: 'certifications', 
-        name: 'formateur-certifications', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Certifications' }
-      },
-      { 
-        path: 'statistiques', 
-        name: 'formateur-statistiques', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Statistiques' }
-      },
-      { 
-        path: 'messages', 
-        name: 'formateur-messages', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Messages' }
-      },
-      { 
-        path: 'calendrier', 
-        name: 'formateur-calendrier', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Calendrier' }
-      },
-      { 
-        path: 'parametres', 
-        name: 'formateur-parametres', 
-        component: () => import('../views/DashboardFormateur.vue'),
-        meta: { title: 'Paramètres' }
-      }
-    ]
+    ],
   },
 
   // Super Admin
@@ -138,7 +75,7 @@ const routes = [
     path: '/superadmin',
     component: EmptyLayout,
     children: [
-      { path: '', name: 'super-admin', component: () => import('../views/AdminDashboard.vue') }
+      { path: '', name: 'super-admin', component: () => import('../views/Dashboard/AdminDashboard.vue') }
     ],
     meta: { requiresAuth: true, requiresAdmin: true }
   },
@@ -146,7 +83,7 @@ const routes = [
     path: '/dashboard-admin',
     component: EmptyLayout,
     children: [
-      { path: '', name: 'superadmin', component: () => import('../views/DashboardAdmin.vue') }
+      { path: '', name: 'superadmin', component: () => import('../views/Dashboard/DashboardAdmin.vue') }
     ],
     meta: { requiresAuth: true, requiresAdmin: true }
   },
@@ -168,7 +105,7 @@ const routes = [
   {
     path: '/concours/:id',
     name: 'ConcoursDetails',
-    component: () => import('../views/ConcoursDetailsPage.vue')
+    component: () => import('../views/concours/ConcoursDetailsPage.vue')
   },
   {
     path: '/classement-national',
@@ -212,32 +149,37 @@ const routes = [
   {
     path: '/formation-diplomante',
     name: 'formation-diplomante',
-    component: () => import('../views/FormationDiplomantePage.vue')
+    component: () => import('../views/Formations/FormationDiplomantePage.vue')
   },
   {
     path: '/formation-qualifiante',
     name: 'formation-qualifiante',
-    component: () => import('../views/FormationQualifiantePage.vue')
+    component: () => import('../views/Formations/FormationQualifiantePage.vue')
+  },
+  {
+    path: '/formation-presidentielle',
+    name: 'FormationPresidentielle',
+    component: FormationPresidentiellePage
   },
   {
     path: '/formationdiplomante',
     name: 'FormationDiplomante',
-    component: () => import('../views/FormationDiplomante.vue')
+    component: () => import('../views/Formations/FormationPresidentiellePage.vue')
   },
   {
     path: '/formationqualifiante',
     name: 'FormationQualifiante',
-    component: () => import('../views/FormationQualifiante.vue')
+    component: () => import('../views/Formations/FormationQualifiante.vue')
   },
   {
     path: '/formationhybride',
     name: 'FormationHybride',
-    component: () => import('../views/FormationHybride.vue')
+    component: () => import('../views/Formations/FormationHybride.vue')
   },
   {
     path: '/formation-hybride-page',
     name: 'FormationHybridePage',
-    component: () => import('../views/FormationHybridePage.vue')
+    component: () => import('../views/Formations/FormationHybridePage.vue')
   },
 
   // Routes utilitaires
