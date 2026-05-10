@@ -276,10 +276,8 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 const router = useRouter();
-const store = useStore();
 
 // États
 const dropdownOpen = ref(false);
@@ -288,13 +286,32 @@ const boutiqueOpen = ref(false);
 const mobileBoutiqueOpen = ref(false);
 let closeTimer = null;
 
-// Données utilisateur
-const isAuthenticated = computed(() => store.getters.isAuthenticated);
-const user = computed(() => store.getters.user);
+// Données utilisateur locales (sans store)
+const isAuthenticated = ref(false);
+const user = ref(null);
+
+// Charger les données utilisateur depuis localStorage
+const loadUserData = () => {
+  const token = localStorage.getItem('gradus_token');
+  const userStr = localStorage.getItem('gradus_user');
+  
+  isAuthenticated.value = !!token;
+  
+  if (userStr) {
+    try {
+      user.value = JSON.parse(userStr);
+    } catch (e) {
+      console.error('Erreur lors du chargement des données utilisateur');
+      user.value = null;
+    }
+  } else {
+    user.value = null;
+  }
+};
 
 // Informations utilisateur complètes
 const userName = computed(() => {
-  return user.value?.fullname || user.value?.name || 'Utilisateur';
+  return user.value?.fullname || user.value?.name || user.value?.nom || 'Utilisateur';
 });
 
 const userEmail = computed(() => {
@@ -307,10 +324,11 @@ const userInitials = computed(() => {
 });
 
 const userRole = computed(() => {
-  const role = user.value?.role;
+  const role = user.value?.role || user.value?.type;
   if (role === 'admin') return 'Administrateur';
-  if (role === 'formateur') return 'Formateur';
-  return 'Élève';
+  if (role === 'formateur' || role === 'instructor') return 'Formateur';
+  if (role === 'student') return 'Élève';
+  return 'Membre';
 });
 
 // Toggle dropdown
@@ -326,7 +344,7 @@ const toggleBoutique = () => {
 const startCloseBoutiqueTimer = () => {
   closeTimer = setTimeout(() => {
     boutiqueOpen.value = false;
-  }, 300); // 300ms de délai avant fermeture
+  }, 300);
 };
 
 const cancelCloseBoutique = () => {
@@ -341,7 +359,6 @@ const closeDropdown = (event) => {
   if (!event.target.closest('.relative')) {
     dropdownOpen.value = false;
   }
-  // Ne pas fermer boutique si on clique sur le bouton
   if (!event.target.closest('.relative:has(button)')) {
     cancelCloseBoutique();
     boutiqueOpen.value = false;
@@ -353,20 +370,29 @@ const logout = async () => {
   dropdownOpen.value = false;
   mobileMenuOpen.value = false;
   
-  await store.dispatch('logout');
+  // Nettoyer le localStorage
   localStorage.removeItem('gradus_token');
   localStorage.removeItem('gradus_user');
   
-  router.push('/');
+  // Mettre à jour l'état local
+  isAuthenticated.value = false;
+  user.value = null;
+  
+  await router.push('/');
 };
 
 // Lifecycle
 onMounted(() => {
+  loadUserData();
   document.addEventListener('click', closeDropdown);
+  
+  // Écouter les changements de localStorage (pour mise à jour depuis d'autres onglets)
+  window.addEventListener('storage', loadUserData);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', closeDropdown);
+  window.removeEventListener('storage', loadUserData);
   if (closeTimer) {
     clearTimeout(closeTimer);
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Hero Section avec image -->
-    <div class="relative h-96 bg-gradient-to-r from-indigo-800 to-indigo-900">
+    <div class="relative h-80 bg-gradient-to-r from-indigo-800 to-indigo-900">
       <div class="absolute inset-0 opacity-30">
         <img src="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?w=1920&h=500&fit=crop" alt="Formations" class="w-full h-full object-cover">
       </div>
@@ -11,11 +11,8 @@
           <i class="fas fa-graduation-cap text-white text-sm"></i>
           <span class="text-white font-semibold text-sm">Diplômes d'État reconnus</span>
         </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Formations Diplômantes</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Formations Diplômantes (FD) à distance</h1>
         <p class="text-xl text-indigo-100">BTS, Licence, Master - Diplômes d'État reconnus</p>
-        <button @click="goBack" class="mt-6 flex items-center gap-2 bg-white/20 hover:bg-white/30 transition rounded-full px-6 py-2">
-          <i class="fas fa-arrow-left"></i> Retour aux formations
-        </button>
       </div>
     </div>
 
@@ -32,17 +29,138 @@
       </div>
     </div>
 
-    <div class="container mx-auto px-5 py-12">
+    <div class="container mx-auto px-5 py-8">
+      <!-- Dates de clôture des candidatures -->
+      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 rounded-xl p-5 mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-calendar-alt text-amber-600 text-xl mt-0.5"></i>
+          <div>
+            <h3 class="font-bold text-amber-800">Les dates de clôture des candidatures :</h3>
+            <ul class="mt-2 space-y-1">
+              <li class="text-amber-700">
+                <i class="fas fa-circle text-[8px] mr-2"></i>
+                <strong>9 juin 2026</strong> pour la rentrée universitaire de septembre 2026
+              </li>
+              <li class="text-amber-700">
+                <i class="fas fa-circle text-[8px] mr-2"></i>
+                <strong>14 septembre 2026</strong> pour la rentrée universitaire de janvier 2027
+              </li>
+            </ul>
+            <p class="text-sm text-amber-600 mt-2">
+              <i class="fas fa-info-circle mr-1"></i>
+              Découvrez ci-dessous les formations diplômantes internationales à distance proposées par les établissements universitaires membres de l'AUF.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres selon l'image -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <!-- Par région -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-map-marker-alt mr-1"></i> Par région
+            </label>
+            <select v-model="filters.region" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="">Toutes les régions</option>
+              <option value="afrique">Afrique</option>
+              <option value="europe">Europe</option>
+              <option value="asie">Asie</option>
+              <option value="amerique">Amérique</option>
+            </select>
+          </div>
+          
+          <!-- Par pays -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-flag mr-1"></i> Par pays
+            </label>
+            <select v-model="filters.pays" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="">Tous les pays</option>
+              <option value="france">France</option>
+              <option value="senegal">Sénégal</option>
+              <option value="cote-ivoire">Côte d'Ivoire</option>
+              <option value="cameroun">Cameroun</option>
+              <option value="mali">Mali</option>
+              <option value="burkina">Burkina Faso</option>
+            </select>
+          </div>
+
+          <!-- Par établissement -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-university mr-1"></i> Par établissement
+            </label>
+            <select v-model="filters.etablissement" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="">Tous les établissements</option>
+              <option value="universite-paris">Université de Paris</option>
+              <option value="ucad">UCAD - Sénégal</option>
+              <option value="universite-montreal">Université de Montréal</option>
+              <option value="universite-libre">Université Libre de Bruxelles</option>
+            </select>
+          </div>
+
+          <!-- Mot clés -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-search mr-1"></i> Mot clés
+            </label>
+            <div class="relative">
+              <input type="text" v-model="filters.motCle" placeholder="Rechercher..." class="w-full p-2.5 border border-gray-200 rounded-lg text-sm pl-9 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+          <!-- Par domaine -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-tag mr-1"></i> Par domaine
+            </label>
+            <select v-model="filters.domaine" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="">Tous les domaines</option>
+              <option value="informatique">Informatique</option>
+              <option value="commerce">Commerce & Marketing</option>
+              <option value="gestion">Gestion & Finance</option>
+              <option value="droit">Droit</option>
+              <option value="sante">Santé</option>
+            </select>
+          </div>
+
+          <!-- Par niveau -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-layer-group mr-1"></i> Par niveau
+            </label>
+            <select v-model="filters.niveau" class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="">Tous les niveaux</option>
+              <option value="bts">BTS (Bac+2)</option>
+              <option value="licence">Licence (Bac+3)</option>
+              <option value="master">Master (Bac+5)</option>
+              <option value="doctorat">Doctorat</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistiques des formations -->
+      <div class="flex flex-wrap justify-between items-center mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800">Toutes les formations</h2>
+          <p class="text-gray-500 text-sm mt-1">Formations disponibles : <span class="font-bold text-indigo-600">{{ filteredFilieres.length }}</span></p>
+        </div>
+        <div class="bg-green-50 px-4 py-2 rounded-lg">
+          <i class="fas fa-check-circle text-green-600 mr-2"></i>
+          <span class="text-green-700 text-sm font-medium">Candidatures ouvertes pour l'année 2026/2027</span>
+        </div>
+      </div>
+      
       <!-- Filières disponibles -->
       <div class="mb-12">
-        <div class="text-center mb-10">
-          <span class="text-indigo-600 font-semibold uppercase tracking-wide">Nos programmes</span>
-          <h2 class="text-3xl md:text-4xl font-bold mt-2">Nos filières diplômantes</h2>
-          <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Des formations de qualité pour booster votre carrière</p>
-        </div>
-        
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="filiere in filieresDiplomantes" :key="filiere.id" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" @click="openFiliereDetail(filiere)">
+          <div v-for="filiere in filteredFilieres" :key="filiere.id" class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" @click="openFiliereDetail(filiere)">
             <div class="relative h-48 overflow-hidden">
               <img :src="filiere.image" :alt="filiere.nom" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" @error="handleImageError(filiere)">
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -62,20 +180,6 @@
               </div>
               <p class="text-gray-600 mt-3 line-clamp-2">{{ filiere.description }}</p>
               
-              <div class="mt-4 bg-gradient-to-r from-indigo-50 to-cyan-50 rounded-xl p-3">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <p class="text-xs text-gray-500">À partir de</p>
-                    <p class="text-2xl font-bold text-indigo-600">{{ filiere.prix.toLocaleString() }} FCFA</p>
-                    <p class="text-xs text-gray-400">/an</p>
-                  </div>
-                  <div class="text-right">
-                    <p class="text-xs text-gray-500 line-through">{{ (filiere.prix * 1.2).toLocaleString() }} FCFA</p>
-                    <p class="text-xs text-green-600">Économisez 20%</p>
-                  </div>
-                </div>
-              </div>
-              
               <div class="mt-4 flex items-center justify-between">
                 <div class="flex items-center gap-1">
                   <i class="fas fa-star text-yellow-400 text-sm"></i>
@@ -89,70 +193,17 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Avantages -->
-      <div class="bg-gradient-to-r from-indigo-50 to-cyan-50 rounded-3xl p-8 mb-12">
-        <h2 class="text-2xl font-bold text-center mb-8">Pourquoi choisir nos formations diplômantes ?</h2>
-        <div class="grid md:grid-cols-4 gap-6">
-          <div class="text-center group cursor-pointer">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-600 transition-all duration-300 group-hover:scale-110">
-              <i class="fas fa-graduation-cap text-indigo-600 text-2xl group-hover:text-white"></i>
-            </div>
-            <p class="font-semibold">Diplôme d'État</p>
-            <p class="text-sm text-gray-500">Reconnu par l'État</p>
-          </div>
-          <div class="text-center group cursor-pointer">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-600 transition-all duration-300 group-hover:scale-110">
-              <i class="fas fa-chalkboard-user text-indigo-600 text-2xl group-hover:text-white"></i>
-            </div>
-            <p class="font-semibold">Formateurs experts</p>
-            <p class="text-sm text-gray-500">Professeurs qualifiés</p>
-          </div>
-          <div class="text-center group cursor-pointer">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-600 transition-all duration-300 group-hover:scale-110">
-              <i class="fas fa-laptop-code text-indigo-600 text-2xl group-hover:text-white"></i>
-            </div>
-            <p class="font-semibold">Plateforme LMS</p>
-            <p class="text-sm text-gray-500">Cours en ligne 24/7</p>
-          </div>
-          <div class="text-center group cursor-pointer">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-600 transition-all duration-300 group-hover:scale-110">
-              <i class="fas fa-briefcase text-indigo-600 text-2xl group-hover:text-white"></i>
-            </div>
-            <p class="font-semibold">Insertion pro</p>
-            <p class="text-sm text-gray-500">85% d'emploi</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section FAQ -->
-      <div class="bg-white rounded-3xl shadow-lg p-8">
-        <h2 class="text-2xl font-bold text-center mb-8">Questions fréquentes</h2>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="border-b pb-4">
-            <h3 class="font-bold flex items-center gap-2"><i class="fas fa-question-circle text-indigo-600"></i> Quels sont les prérequis ?</h3>
-            <p class="text-gray-600 text-sm mt-2">Être titulaire d'un Baccalauréat ou équivalent pour les licences, et d'une Licence pour les masters.</p>
-          </div>
-          <div class="border-b pb-4">
-            <h3 class="font-bold flex items-center gap-2"><i class="fas fa-question-circle text-indigo-600"></i> La formation est-elle reconnue ?</h3>
-            <p class="text-gray-600 text-sm mt-2">Oui, nos diplômes sont accrédités par l'État et reconnus par les entreprises.</p>
-          </div>
-          <div class="border-b pb-4">
-            <h3 class="font-bold flex items-center gap-2"><i class="fas fa-question-circle text-indigo-600"></i> Quels sont les débouchés ?</h3>
-            <p class="text-gray-600 text-sm mt-2">Nos diplômés travaillent dans les administrations, banques, entreprises privées et internationales.</p>
-          </div>
-          <div class="border-b pb-4">
-            <h3 class="font-bold flex items-center gap-2"><i class="fas fa-question-circle text-indigo-600"></i> Peut-on financer sa formation ?</h3>
-            <p class="text-gray-600 text-sm mt-2">Oui, nous proposons des facilités de paiement et des bourses sur dossier.</p>
-          </div>
+        
+        <div v-if="filteredFilieres.length === 0" class="text-center py-12">
+          <i class="fas fa-search text-gray-300 text-5xl mb-4"></i>
+          <p class="text-gray-500">Aucune formation ne correspond à vos critères</p>
         </div>
       </div>
     </div>
 
-    <!-- MODAL DE CHOIX (SANS FLOU) -->
+    <!-- MODAL DE CHOIX -->
     <div v-if="choixModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="closeChoixModal">
-      <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.7);"></div>
+      <div class="absolute inset-0 bg-black/70"></div>
       <div class="relative bg-white rounded-2xl max-w-2xl w-full p-6" style="animation: slideIn 0.3s ease-out;">
         <div class="bg-gradient-to-r from-indigo-600 to-cyan-600 -mt-6 -mx-6 rounded-t-2xl p-6 text-center relative mb-6">
           <button @click="closeChoixModal" class="absolute top-4 right-4 text-white/80 hover:text-white">
@@ -180,7 +231,7 @@
 
     <!-- MODAL PRÉ-INSCRIPTION -->
     <div v-if="preInscriptionModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="closePreInscriptionModal">
-      <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.7);"></div>
+      <div class="absolute inset-0 bg-black/70"></div>
       <div class="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" style="animation: slideIn 0.3s ease-out;">
         <div class="bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-t-2xl p-6 text-center sticky top-0">
           <button @click="closePreInscriptionModal" class="absolute top-4 right-4 text-white/80 hover:text-white">
@@ -216,7 +267,7 @@
 
     <!-- MODAL DEMANDE DE RENSEIGNEMENT -->
     <div v-if="renseignementModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="closeRenseignementModal">
-      <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.7);"></div>
+      <div class="absolute inset-0 bg-black/70"></div>
       <div class="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" style="animation: slideIn 0.3s ease-out;">
         <div class="bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-t-2xl p-6 text-center sticky top-0">
           <button @click="closeRenseignementModal" class="absolute top-4 right-4 text-white/80 hover:text-white">
@@ -246,7 +297,7 @@
 
     <!-- MODAL SUCCÈS -->
     <div v-if="successModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="successModalOpen=false">
-      <div class="absolute inset-0" style="background: rgba(0, 0, 0, 0.7);"></div>
+      <div class="absolute inset-0 bg-black/70"></div>
       <div class="relative bg-white rounded-2xl max-w-md w-full text-center p-6" style="animation: slideIn 0.3s ease-out;">
         <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
           <i class="fas fa-check-circle text-green-600 text-4xl"></i>
@@ -264,13 +315,22 @@ export default {
   name: 'FormationsDiplomantes',
   data() {
     return {
+      // Filtres
+      filters: {
+        region: '',
+        pays: '',
+        etablissement: '',
+        motCle: '',
+        domaine: '',
+        niveau: ''
+      },
       filieresDiplomantes: [
-        { id: 1, nom: 'BTS Commerce International', niveau: 'Bac+2', duree: '2 ans', prix: 120000, description: 'Commerce, logistique, marketing international', icon: 'fas fa-globe', image: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?w=400&h=250&fit=crop' },
-        { id: 2, nom: 'Licence en Administration', niveau: 'Bac+3', duree: '3 ans', prix: 180000, description: 'Gestion, RH, comptabilité', icon: 'fas fa-building', image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?w=400&h=250&fit=crop' },
-        { id: 3, nom: 'Master MBA Management', niveau: 'Bac+5', duree: '2 ans', prix: 250000, description: 'Management stratégique, finance, leadership', icon: 'fas fa-chart-line', image: 'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg?w=400&h=250&fit=crop' },
-        { id: 4, nom: 'Licence en Droit', niveau: 'Bac+3', duree: '3 ans', prix: 160000, description: 'Droit des affaires, droit civil', icon: 'fas fa-gavel', image: 'https://images.pexels.com/photos/3184341/pexels-photo-3184341.jpeg?w=400&h=250&fit=crop' },
-        { id: 5, nom: 'Master en Finance', niveau: 'Bac+5', duree: '2 ans', prix: 230000, description: "Finance d'entreprise, audit", icon: 'fas fa-coins', image: 'https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?w=400&h=250&fit=crop' },
-        { id: 6, nom: 'BTS Informatique', niveau: 'Bac+2', duree: '2 ans', prix: 130000, description: 'Développement, réseaux, base de données', icon: 'fas fa-laptop-code', image: 'https://images.pexels.com/photos/3184343/pexels-photo-3184343.jpeg?w=400&h=250&fit=crop' }
+        { id: 1, nom: 'BTS Commerce International', niveau: 'Bac+2', niveauFiltre: 'bts', duree: '2 ans', prix: 120000, description: 'Commerce, logistique, marketing international', domaine: 'commerce', pays: 'france', region: 'europe', icon: 'fas fa-globe', image: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?w=400&h=250&fit=crop' },
+        { id: 2, nom: 'Licence en Administration', niveau: 'Bac+3', niveauFiltre: 'licence', duree: '3 ans', prix: 180000, description: 'Gestion, RH, comptabilité', domaine: 'gestion', pays: 'senegal', region: 'afrique', icon: 'fas fa-building', image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?w=400&h=250&fit=crop' },
+        { id: 3, nom: 'Master MBA Management', niveau: 'Bac+5', niveauFiltre: 'master', duree: '2 ans', prix: 250000, description: 'Management stratégique, finance, leadership', domaine: 'gestion', pays: 'france', region: 'europe', icon: 'fas fa-chart-line', image: 'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg?w=400&h=250&fit=crop' },
+        { id: 4, nom: 'Licence en Droit', niveau: 'Bac+3', niveauFiltre: 'licence', duree: '3 ans', prix: 160000, description: 'Droit des affaires, droit civil', domaine: 'droit', pays: 'cote-ivoire', region: 'afrique', icon: 'fas fa-gavel', image: 'https://images.pexels.com/photos/3184341/pexels-photo-3184341.jpeg?w=400&h=250&fit=crop' },
+        { id: 5, nom: 'Master en Finance', niveau: 'Bac+5', niveauFiltre: 'master', duree: '2 ans', prix: 230000, description: "Finance d'entreprise, audit", domaine: 'gestion', pays: 'cameroun', region: 'afrique', icon: 'fas fa-coins', image: 'https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?w=400&h=250&fit=crop' },
+        { id: 6, nom: 'BTS Informatique', niveau: 'Bac+2', niveauFiltre: 'bts', duree: '2 ans', prix: 130000, description: 'Développement, réseaux, base de données', domaine: 'informatique', pays: 'mali', region: 'afrique', icon: 'fas fa-laptop-code', image: 'https://images.pexels.com/photos/3184343/pexels-photo-3184343.jpeg?w=400&h=250&fit=crop' }
       ],
       choixModalOpen: false,
       preInscriptionModalOpen: false,
@@ -305,6 +365,27 @@ export default {
         objet: '',
         message: ''
       }
+    }
+  },
+  computed: {
+    filteredFilieres() {
+      return this.filieresDiplomantes.filter(filiere => {
+        // Filtre par région
+        if (this.filters.region && filiere.region !== this.filters.region) return false
+        // Filtre par pays
+        if (this.filters.pays && filiere.pays !== this.filters.pays) return false
+        // Filtre par domaine
+        if (this.filters.domaine && filiere.domaine !== this.filters.domaine) return false
+        // Filtre par niveau
+        if (this.filters.niveau && filiere.niveauFiltre !== this.filters.niveau) return false
+        // Filtre par mot clé
+        if (this.filters.motCle) {
+          const searchTerm = this.filters.motCle.toLowerCase()
+          return filiere.nom.toLowerCase().includes(searchTerm) || 
+                 filiere.description.toLowerCase().includes(searchTerm)
+        }
+        return true
+      })
     }
   },
   methods: {

@@ -1,16 +1,17 @@
+// resources/js/app.js
 import './bootstrap';
 import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import App from './App.vue';
-import store from './store';
-
-// Importation correcte du routeur
+import { createPinia } from 'pinia';
 import router from './router';
 
-// Vérification supplémentaire
-console.log('Router importé:', router);
+// Import des styles
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const app = createApp(App);
+const app = createApp({});
+
+// Créer et utiliser le store Pinia
+const pinia = createPinia();
+app.use(pinia);
 app.use(router);
-app.use(store);
+
 app.mount('#app');

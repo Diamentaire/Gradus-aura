@@ -33,6 +33,137 @@
     </div>
 
     <div class="container mx-auto px-5 py-12">
+      <!-- Dates de clôture des candidatures -->
+      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 rounded-xl p-5 mb-8">
+        <div class="flex items-start gap-3">
+          <i class="fas fa-calendar-alt text-amber-600 text-xl mt-0.5"></i>
+          <div>
+            <h3 class="font-bold text-amber-800">Les dates de clôture des candidatures :</h3>
+            <ul class="mt-2 space-y-1">
+              <li class="text-amber-700">
+                <i class="fas fa-circle text-[8px] mr-2"></i>
+                <strong>9 juin 2026</strong> pour la rentrée universitaire de septembre 2026
+              </li>
+              <li class="text-amber-700">
+                <i class="fas fa-circle text-[8px] mr-2"></i>
+                <strong>14 septembre 2026</strong> pour la rentrée universitaire de janvier 2027
+              </li>
+            </ul>
+            <p class="text-sm text-amber-600 mt-2">
+              <i class="fas fa-info-circle mr-1"></i>
+              Découvrez ci-dessous les formations diplômantes internationales à distance proposées par les établissements universitaires membres de l'AUF.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTRES COMPLETS -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
+        <!-- Première ligne : Par région, Par pays, Par établissement -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+          <!-- Par région -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-map-marker-alt mr-1"></i> Par région
+            </label>
+            <select class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">Toutes les régions</option>
+              <option value="afrique">Afrique</option>
+              <option value="europe">Europe</option>
+              <option value="asie">Asie</option>
+              <option value="amerique">Amérique</option>
+              <option value="oceanie">Océanie</option>
+            </select>
+          </div>
+          
+          <!-- Par pays -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-flag mr-1"></i> Par pays
+            </label>
+            <select class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">Tous les pays</option>
+              <option value="france">France</option>
+              <option value="senegal">Sénégal</option>
+              <option value="cote-ivoire">Côte d'Ivoire</option>
+              <option value="cameroun">Cameroun</option>
+              <option value="mali">Mali</option>
+              <option value="burkina">Burkina Faso</option>
+              <option value="niger">Niger</option>
+              <option value="benin">Bénin</option>
+              <option value="togo">Togo</option>
+              <option value="guinee">Guinée</option>
+              <option value="canada">Canada</option>
+              <option value="belgique">Belgique</option>
+              <option value="suisse">Suisse</option>
+            </select>
+          </div>
+
+          <!-- Par établissement -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-university mr-1"></i> Par établissement
+            </label>
+            <select class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">Tous les établissements</option>
+              <option value="universite-paris">Université de Paris</option>
+              <option value="ucad">UCAD - Sénégal</option>
+              <option value="universite-montreal">Université de Montréal</option>
+              <option value="universite-libre">Université Libre de Bruxelles</option>
+              <option value="universite-geneve">Université de Genève</option>
+              <option value="universite-lomé">Université de Lomé</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Deuxième ligne : Mot clés -->
+        <div class="mb-5">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-search mr-1"></i> Mot clés
+            </label>
+            <div class="relative">
+              <input type="text" placeholder="Rechercher une formation..." class="w-full p-2.5 pl-9 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Troisième ligne : Par domaine, Par niveau -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Par domaine -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-tag mr-1"></i> Par domaine
+            </label>
+            <select class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">Tous les domaines</option>
+              <option value="informatique">Informatique</option>
+              <option value="commerce">Commerce & Marketing</option>
+              <option value="gestion">Gestion & Finance</option>
+              <option value="droit">Droit</option>
+              <option value="sante">Santé</option>
+              <option value="ingenierie">Ingénierie</option>
+              <option value="communication">Communication</option>
+            </select>
+          </div>
+
+          <!-- Par niveau -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <i class="fas fa-layer-group mr-1"></i> Par niveau
+            </label>
+            <select class="w-full p-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">Tous les niveaux</option>
+              <option value="debutant">Débutant</option>
+              <option value="intermediaire">Intermédiaire</option>
+              <option value="avance">Avancé</option>
+              <option value="expert">Expert</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <!-- Programmes hybrides disponibles -->
       <div class="mb-12">
         <div class="text-center mb-10">

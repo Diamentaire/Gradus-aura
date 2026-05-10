@@ -4,6 +4,9 @@ import EmptyLayout from '../layouts/EmptyLayout.vue';
 import FormationPresidentiellePage from '../views/Formations/FormationPresidentiellePage.vue';
 import DashboardFormateur from '../views/Dashboard/DashboardFormateur.vue';
 
+// Imports des modules du dashboard admin
+import DashboardAdmin from '../components/DashboardAdmin.vue';
+
 
 const routes = [
   // Routes publiques avec DefaultLayout
@@ -70,6 +73,24 @@ const routes = [
     ],
   },
 
+  // ==================== DASHBOARD ADMIN (UDEMY CLONE) ====================
+  
+  // ROUTE DE TEST SANS AUTHENTIFICATION - Ajoutez cette route en premier pour tester
+  {
+    path: '/admin-test',
+    name: 'admin-test',
+    component: DashboardAdmin,
+    meta: { title: 'Test Admin Dashboard' }
+  },
+  
+  // Dashboard Admin principal AVEC authentification
+  {
+    path: '/admin-dashboard',
+    name: 'admin-dashboard',
+    component: DashboardAdmin
+},
+
+  // Routes alternatives pour l'admin (SANS auth pour test)
   // Super Admin
   {
     path: '/superadmin',
@@ -83,9 +104,8 @@ const routes = [
     path: '/dashboard-admin',
     component: EmptyLayout,
     children: [
-      { path: '', name: 'superadmin', component: () => import('../views/Dashboard/DashboardAdmin.vue') }
-    ],
-    meta: { requiresAuth: true, requiresAdmin: true }
+      { path: '', name: 'superadmin', component: DashboardAdmin }
+    ]
   },
 
   // Routes E-learning
@@ -130,6 +150,16 @@ const routes = [
       { path: 'test-disc', name: 'test-disc', component: () => import('../views/orientation/TestDISC.vue') },
       { path: 'test-riasec', name: 'test-riasec', component: () => import('../views/orientation/TestRIASEC.vue') },
       { path: 'resultats', name: 'resultats-orientation', component: () => import('../views/orientation/ResultatsOrientation.vue') }
+    ]
+  },
+
+  // Routes Groupes d'étude
+  {
+    path: '/study-groups',
+    component: EmptyLayout,
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'study-groups', component: () => import('../views/StudyGroupsPage.vue') }
     ]
   },
 
@@ -193,32 +223,65 @@ const routes = [
     path: '/confirmation',
     name: 'confirmation',
     component: () => import('../views/ConfirmationPage.vue')
+  },
+
+  // Route 404 - Page non trouvée
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('../views/NotFound.vue')
   }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  }
 });
 
-// Guard de navigation MODIFIÉE (sans vérification de rôle pour test)
+// Guard de navigation MODIFIÉ - Ajout de la route de test
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('gradus_token');
+  const userStr = localStorage.getItem('gradus_user');
+  let userRole = null;
+  
+  try {
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      userRole = user.role || user.type;
+    }
+  } catch (e) {
+    console.error('Erreur parsing user:', e);
+  }
+  
   const isAuthenticated = !!token;
 
   // Définition du titre
   if (to.meta?.title) {
     document.title = `${to.meta.title} | Gradus Aura`;
+  } else if (to.name === 'admin-dashboard') {
+    document.title = 'Administration | Gradus Aura';
+  } else if (to.name === 'admin-test') {
+    document.title = 'Test Admin Dashboard | Gradus Aura';
+  } else {
+    document.title = 'Gradus Aura - Plateforme éducative';
   }
 
-  // Routes publiques
+  // Routes publiques (AJOUT de admin-test pour test sans auth)
   const publicRoutes = [
     'home', 'concours', 'examens', 'formations', 'ressources', 
     'boutique', 'mobilite-pays', 'mobilite-bourses', 'contact',
     'login', 'register', 'forgot-password', 'reset-password',
     'ConcoursDetails', 'formation-diplomante', 'formation-qualifiante',
     'FormationDiplomante', 'FormationQualifiante', 'FormationHybride',
-    'FormationHybridePage', 'confirmation'
+    'FormationHybridePage', 'confirmation', 'not-found',
+    'admin-test', 'super-admin', 'superadmin'  // AJOUT de ces routes pour test
   ];
   
   if (publicRoutes.includes(to.name)) {
@@ -226,13 +289,19 @@ router.beforeEach((to, from, next) => {
     return;
   }
   
-  // Routes protégées (uniquement vérification token)
+  // Routes protégées (vérification token)
   if (to.meta?.requiresAuth && !isAuthenticated) {
     next({ name: 'login', query: { redirect: to.fullPath } });
     return;
   }
   
-  // ✅ Tout est ok
+  // Vérification du rôle admin pour les routes admin
+  if (to.meta?.requiresAdmin && userRole !== 'admin' && userRole !== 'super_admin') {
+    next({ name: 'dashboard' });
+    return;
+  }
+  
+  // Tout est ok
   next();
 });
 

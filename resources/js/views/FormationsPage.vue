@@ -212,10 +212,10 @@
 
         <!-- Deuxième ligne : FP et FH côte à côte -->
         <div class="grid md:grid-cols-2 gap-12">
-          <!-- Formation Présidentielle FP (Violet - Gauche) -->
+          <!-- Formation Présentielle FP (Violet - Gauche) -->
           <div class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
             <div class="relative h-64 overflow-hidden">
-              <img src="/public/images/IMG_6058.JPG" alt="Formation présidentielle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <img src="https://images.pexels.com/photos/3184430/pexels-photo-3184430.jpeg?w=600&h=400&fit=crop" alt="Formation présidentielle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
               <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
               <div class="absolute bottom-4 left-4">
                 <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">👑 Executive</span>
@@ -225,7 +225,7 @@
               </div>
             </div>
             <div class="p-8">
-              <h2 class="text-2xl font-bold text-gray-800 group-hover:text-purple-600 transition">Formation Présidentielle (FP) Executive</h2>
+              <h2 class="text-2xl font-bold text-gray-800 group-hover:text-purple-600 transition">Formation Présentielle (FP) Executive</h2>
               <p class="text-gray-500 mt-2">Programme d'excellence pour les hauts responsables et cadres dirigeants, dispensé par des experts internationaux.</p>
               
               <div class="mt-4 flex flex-wrap gap-4">
